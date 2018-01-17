@@ -7,18 +7,22 @@
         xmlns:generic="clr-namespace:System.Collections.Generic;assembly=mscorlib"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="简易通讯录" Height="400" Width="650" ResizeMode="NoResize">
-    <Window.DataContext>
+        Title="通讯录" Height="400" Width="650" ResizeMode="NoResize">
+    <!--<Window.DataContext>
         <local:ContactsViewModel></local:ContactsViewModel>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" >
-            
-            <ListBox x:Name="contactList"  ItemsSource="{Binding Contacts}" VerticalAlignment="Top" MaxHeight="337" Height="337" >
+
+            <ListView x:Name="contactList" ItemsSource="{Binding Contacts}" VerticalAlignment="Top" MaxHeight="347" Height="347"  SelectionChanged="ContactList_OnSelectionChanged" SelectionMode="Single">
+
+                <!--<ListView.CommandBindings>
+                    <CommandBinding Command="Select" Executed="CommandBinding_OnExecuted"></CommandBinding>
+                </ListView.CommandBindings>-->
                 <!--<i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseClick">
                         <i:InvokeCommandAction Command="{Binding Select}"/>
@@ -28,20 +32,26 @@
                     <CommandBinding Command="Select"  Path="Contacts"></CommandBinding>
                 </ListBox.CommandBindings>-->
                 <ListBox.ItemTemplate>
-                    
                     <DataTemplate>
-                        <Button Command="">
-                            <TextBlock Text="{Binding Name}"  >
+                        <Label >
+                            <TextBlock Text="{Binding Path=DisplayName,Mode=OneWay}"  >
                             </TextBlock>
-                        </Button>
-                        
+                        </Label>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>
-            <Button Content="Add" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="7,0,0,10"></Button>
-            <Button Content="Remove" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="40,0,0,10"></Button>
-            <Button Content="Refresh" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="95,0,0,10"></Button>
-            <Button Content="select" VerticalAlignment="Bottom" HorizontalAlignment="left" Click="ButtonBase_OnClick"></Button>
+            </ListView>
+            <Button Content="" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="9,0,0,3" Width="14" BorderThickness="0" ToolTip="新增联系人" x:Name="addContact" Click="AddContact_OnClick">
+                <Button.Background>
+                    <ImageBrush Stretch="None" TileMode="Tile" ImageSource="resource/plus.png"></ImageBrush>
+                </Button.Background>
+            </Button>
+            <Button Content="" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="32,0,0,3" Width="14" BorderThickness="0" ToolTip="删除联系人" x:Name="removeContact" Click="RemoveContact_OnClick">
+                <Button.Background>
+                    <ImageBrush Stretch="None" TileMode="Tile" ImageSource="resource/minus.png"></ImageBrush>
+                </Button.Background>
+            </Button>
+            <!--<Button Content="&amp;" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="65,0,0,3"></Button>-->
+            <!--<Button Content="select" VerticalAlignment="Bottom" HorizontalAlignment="left" Click="ButtonBase_OnClick"></Button>-->
         </Grid>
         <Grid Grid.Column="1" Width="490" Height="Auto" Margin="0,0,0,0">
             <Label Content="姓  名" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
@@ -50,8 +60,9 @@
             <TextBox Text="{Binding Selected.Phone}"   VerticalAlignment="Top" Margin="55,60,180,0" BorderThickness="0,0,0,1" VerticalContentAlignment="Top" ></TextBox>
             <Label Content="邮  件" Margin="10,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
             <TextBox Text="{Binding Selected.Email}"   VerticalAlignment="Top" Margin="55,105,180,0" BorderThickness="0,0,0,1" VerticalContentAlignment="Top" ></TextBox>
-            <Button Content="保 存" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="55" Height="25" Margin="0,0,15,10"></Button>
+            <Button Content="保 存" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="55" Height="25" Margin="0,0,15,10" Click="SaveBtn_OnClick" x:Name="saveBtn"></Button>
             <Image Height="160" Width="120" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,15,15,0" ClipToBounds="False" ></Image>
+            <Label x:Name="errorDispay" HorizontalAlignment="Left" VerticalAlignment="Top" Content="" Margin="55,135,0,0" Width="Auto" Foreground="DarkRed"></Label>
         </Grid>
     </Grid>
 </Window>

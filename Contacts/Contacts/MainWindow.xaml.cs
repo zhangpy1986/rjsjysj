@@ -23,20 +23,46 @@ namespace Contacts
         public MainWindow()
         {
             InitializeComponent();
+            contactsViewModel = new ContactsViewModel();
+            this.DataContext = contactsViewModel;
+            //contactList.ItemsSource = contactsViewModel.Contacts;
         }
 
-        //public DataProvider DataProvider;
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void ContactList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Random random = new Random(DateTime.Now.Millisecond);
-            (DataContext as ContactsViewModel).SelectedIndex = random.Next(9);
+            contactsViewModel.SelectedIndex = (sender as ListView).SelectedIndex;
         }
 
-        private void CommandBinding_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        private ContactsViewModel contactsViewModel;
+
+        private void AddContact_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            contactsViewModel.Contacts.Add(new Contact() { });
+            contactsViewModel.SelectedIndex = contactsViewModel.Contacts.Count - 1;
         }
 
+        private void SaveBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            errorDispay.Content = string.Empty;
+            string error;
+            if (!contactsViewModel.Save(out error))
+            {
+                errorDispay.Content = error;
+            }
+        }
 
+        private void RemoveContact_OnClick(object sender, RoutedEventArgs e)
+        {
+            int removedIndex = contactList.SelectedIndex;
+            contactsViewModel.Remove();
+            if (removedIndex > 0)
+            {
+                contactsViewModel.SelectedIndex = removedIndex - 1;
+            }
+            else if (contactList.Items.Count > 0)
+            {
+                contactsViewModel.SelectedIndex = 0;
+            }
+        }
     }
 }

@@ -9,9 +9,9 @@ namespace Contacts
     public class ContactsDbContext : DbContext
     {
         public ContactsDbContext()
-            : base("ContactsDbContext")
+            : base("Contacts.Properties.Settings.ContactsConnectionString")
         { }
-
+        
         public DbSet<Contact> ContactSet { get; set; }
     }
 }
