@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using Contact = Contacts.contact;
 
 namespace Contacts
 {
@@ -41,6 +43,7 @@ namespace Contacts
             errorMsg = null;
             using (ContactsDbContext context = new ContactsDbContext())
             {
+                string cstr = ((IObjectContextAdapter)context).ObjectContext.Connection.ConnectionString;
                 if (Selected.Id == 0)
                 {
                     context.ContactSet.Add(Selected);
@@ -84,6 +87,15 @@ namespace Contacts
             return true;
         }
 
+        public void Search(string text)
+        {
+            using (ContactsDbContext context = new ContactsDbContext())
+            {
+                Contacts = new ObservableCollection<Contact>(from c in context.ContactSet where c.Name.Contains(text) || c.Phone.Contains(text) select c);
+            }
+            RaisePropertyChanged("Contacts");
+        }
+
         private bool Validate(Contact contact, out string errorMsg)
         {
             errorMsg = null;
@@ -117,7 +129,8 @@ namespace Contacts
             this.Contacts.Remove(temp);
             using (ContactsDbContext context = new ContactsDbContext())
             {
-                context.ContactSet.Remove(temp);
+                DbEntityEntry<Contact> entry = context.Entry(temp);
+                entry.State = EntityState.Deleted;
                 context.SaveChanges();
             }
         }
@@ -153,14 +166,15 @@ namespace Contacts
         {
             using (ContactsDbContext context = new ContactsDbContext())
             {
-                DbSqlQuery<Contact> query = context.ContactSet.SqlQuery("select * from Contact");
-                Contacts = new ObservableCollection<Contact>(query);
+                Contacts = new ObservableCollection<Contact>(from c in context.ContactSet select c);
             }
+            RaisePropertyChanged("Contacts");
         }
 
         private int selectedIndex;
         private Regex phoneRegex = new Regex("^(?:\\+86)?0?(13|15|18)\\d{9}$");
-        private Regex emailRegex = new Regex("^[a-zA-Z0-9_\\.]+(?!\\.)@[a-zA-Z0-9]+$");
+        //private Regex emailRegex = new Regex("^[a-zA-Z0-9_\\.]+(?!\\.)@[a-zA-Z0-9]+$");
+        private Regex emailRegex = new Regex("^[a-zA-Z0-9_\\.]+(?!\\.)@[a-zA-Z0-9\\.]+$");
         private ContactsDbContext context = new ContactsDbContext();
     }
 }

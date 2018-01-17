@@ -26,11 +26,22 @@ namespace Contacts.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Contacts.mdf;" +
-            "Integrated Security=True;Connect Timeout=30")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.20.100.162,64684\\sqlexpress;Initial Catalog=Contacts;User Id=sa;pa" +
+            "ssword=123qwe!@#;Connect Timeout=30")]
         public string ContactsConnectionString {
             get {
                 return ((string)(this["ContactsConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.20.100.162,64684\\sqlexpress;Initial Catalog=contacts;User ID=sa;Pa" +
+            "ssword=123qwe!@#")]
+        public string contactsConnectionString1 {
+            get {
+                return ((string)(this["contactsConnectionString1"]));
             }
         }
     }

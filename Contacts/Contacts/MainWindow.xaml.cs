@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Contact=Contacts.contact;
 
 namespace Contacts
 {
@@ -63,6 +64,39 @@ namespace Contacts
             {
                 contactsViewModel.SelectedIndex = 0;
             }
+        }
+
+        private void SearchBox_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            searchBox.Opacity = 1d;
+        }
+
+        private void SearchBox_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(searchBox.Text))
+            {
+                searchBox.Opacity = 0d;
+            }
+        }
+
+        private void SearchBox_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (string.IsNullOrWhiteSpace(searchBox.Text))
+                {
+                    contactsViewModel.Reload();
+                }
+                else
+                {
+                    contactsViewModel.Search(searchBox.Text);
+                }
+            }
+        }
+
+        private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            contactsViewModel.Reload();
         }
     }
 }

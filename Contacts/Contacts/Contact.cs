@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Contacts
 {
-    public partial class Contact 
+    public partial class contact 
     {
         //[Key]
         //public int Id { get; set; }

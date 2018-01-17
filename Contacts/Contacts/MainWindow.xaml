@@ -13,12 +13,14 @@
     </Window.DataContext>-->
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" >
+            <Label x:Name="placeHolder" BorderThickness="0" Content="点击输入姓名/手机号查找" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="Gray" Margin="5,0,0,0" Height="25"></Label>
+            <TextBox x:Name="searchBox" BorderThickness="0,0,0,1" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150" Height="23" Opacity="0" GotFocus="SearchBox_OnGotFocus" LostFocus="SearchBox_OnLostFocus" KeyUp="SearchBox_OnKeyUp"></TextBox>
 
-            <ListView x:Name="contactList" ItemsSource="{Binding Contacts}" VerticalAlignment="Top" MaxHeight="347" Height="347"  SelectionChanged="ContactList_OnSelectionChanged" SelectionMode="Single">
+            <ListView  x:Name="contactList" ItemsSource="{Binding Contacts}" VerticalAlignment="Top" MaxHeight="323" Height="323" Margin="0,25,0,0" SelectionChanged="ContactList_OnSelectionChanged" SelectionMode="Single">
 
                 <!--<ListView.CommandBindings>
                     <CommandBinding Command="Select" Executed="CommandBinding_OnExecuted"></CommandBinding>
@@ -40,20 +42,20 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListView>
-            <Button Content="" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="9,0,0,3" Width="14" BorderThickness="0" ToolTip="新增联系人" x:Name="addContact" Click="AddContact_OnClick">
-                <Button.Background>
+            <Button Content="新增" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="9,0,0,3" Width="Auto"  ToolTip="新增联系人" x:Name="addContact" Click="AddContact_OnClick">
+                <!--<Button.Background>
                     <ImageBrush Stretch="None" TileMode="Tile" ImageSource="resource/plus.png"></ImageBrush>
-                </Button.Background>
+                </Button.Background>-->
             </Button>
-            <Button Content="" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="32,0,0,3" Width="14" BorderThickness="0" ToolTip="删除联系人" x:Name="removeContact" Click="RemoveContact_OnClick">
-                <Button.Background>
+            <Button Content="删除" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="45,0,0,3" Width="Auto"  ToolTip="删除联系人" x:Name="removeContact" Click="RemoveContact_OnClick">
+                <!--<Button.Background>
                     <ImageBrush Stretch="None" TileMode="Tile" ImageSource="resource/minus.png"></ImageBrush>
-                </Button.Background>
+                </Button.Background>-->
             </Button>
-            <!--<Button Content="&amp;" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="65,0,0,3"></Button>-->
+            <Button x:Name="refreshButton" Content="刷新" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="81,0,0,3" Click="RefreshButton_OnClick"></Button>
             <!--<Button Content="select" VerticalAlignment="Bottom" HorizontalAlignment="left" Click="ButtonBase_OnClick"></Button>-->
         </Grid>
-        <Grid Grid.Column="1" Width="490" Height="Auto" Margin="0,0,0,0">
+        <Grid Grid.Column="1" Width="480" Height="Auto" Margin="0,0,0,0">
             <Label Content="姓  名" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <TextBox Text="{Binding Selected.Name}"   VerticalAlignment="Top" Margin="55,15,180,0" BorderThickness="0,0,0,1" VerticalContentAlignment="Top" ></TextBox>
             <Label Content="手  机" Margin="10,55,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
